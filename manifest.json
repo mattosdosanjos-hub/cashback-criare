@@ -1,7 +1,7 @@
 {
-  "name": "Criare Bazar",
-  "short_name": "Criare Bazar",
-  "description": "Sistema de Cashback — Criare Bazar",
+  "name": "Criare",
+  "short_name": "Criare",
+  "description": "Sistema de Cashback — Criare",
   "start_url": "/cashback-criare/",
   "display": "standalone",
   "orientation": "portrait",
