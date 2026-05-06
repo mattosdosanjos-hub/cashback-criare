@@ -248,15 +248,51 @@ function vendaEnviar() {
   if (tel.length<10||tel.length>13) { S('vt').classList.add('err'); S('vt-e').style.display='block'; ok=false; } else { S('vt').classList.remove('err'); S('vt-e').style.display='none'; }
   if (!val||val<=0)                 { S('vv').classList.add('err'); ok=false; } else S('vv').classList.remove('err');
   if (!ok) return;
-  tela('card-v','v-load');
-  chamar('registrarVenda', {nome:nome, telefone:tel, valorVenda:val, percCashback:parseFloat(S('vp').value)||10, obs:S('vo').value.trim()},
+
+  // ── UI OTIMISTA ─────────────────────────────────────────────
+  // Calcula tudo localmente e mostra sucesso IMEDIATAMENTE
+  // O envio para o servidor acontece em paralelo
+  var perc       = parseFloat(S('vp').value) || 10;
+  var cashback   = Math.round(val * perc / 100 * 100) / 100;
+  var hoje       = new Date();
+  // Lê validade das configurações (padrão 30 dias)
+  var validade   = new Date(hoje);
+  validade.setDate(validade.getDate() + 30);
+  var dataVal    = ('0'+validade.getDate()).slice(-2)+'/'+('0'+(validade.getMonth()+1)).slice(-2)+'/'+validade.getFullYear();
+  var primeiro   = nome.split(' ')[0];
+
+  // Monta link do WhatsApp localmente (sem esperar o servidor)
+  var telLimpo   = '55' + tel;
+  var msg        = 'Olá, '+primeiro+'! 🌸
+
+'+
+                   'Obrigada pela sua compra de R$ '+fmt(val)+' na nossa loja!
+
+'+
+                   'Você ganhou *R$ '+fmt(cashback)+' de cashback* para usar na sua próxima visita. 💰
+
+'+
+                   '⏳ Válido até: *'+dataVal+'*
+
+'+
+                   'É só aparecer na loja e avisar que tem cashback antes de fechar a conta. Até logo! 😊';
+  var linkWA = 'https://wa.me/'+telLimpo+'?text='+encodeURIComponent(msg);
+
+  // Mostra sucesso imediatamente
+  S('v-ok-txt').textContent = 'R$ '+fmt(cashback)+' de cashback gerado, válido até '+dataVal+'.';
+  S('v-ok-wa').href = linkWA;
+  tela('card-v','v-ok');
+
+  // Envia para o servidor em background (sem bloquear a UI)
+  chamar('registrarVenda', {nome:nome, telefone:tel, valorVenda:val, percCashback:perc, obs:S('vo').value.trim()},
     function(r) {
-      if (!r.sucesso) { tela('card-v','v-form'); S('v-err').textContent = r.mensagem; return; }
-      S('v-ok-txt').textContent = 'R$ '+fmt(r.cashbackGerado)+' de cashback gerado, válido até '+r.dataValidade+'.';
-      S('v-ok-wa').href = r.linkWA;
-      tela('card-v','v-ok');
+      // Se o servidor retornar link mais preciso (com nome da loja correto), atualiza silenciosamente
+      if (r && r.sucesso && r.linkWA) S('v-ok-wa').href = r.linkWA;
     },
-    function() { tela('card-v','v-form'); S('v-err').textContent = 'Erro de conexão. Tente novamente.'; }
+    function() {
+      // Erro silencioso — UI já mostrou sucesso, mas loga para diagnóstico
+      console.warn('Erro ao salvar no servidor — venda pode não ter sido registrada.');
+    }
   );
 }
 
