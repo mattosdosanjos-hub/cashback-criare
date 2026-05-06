@@ -3,36 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Criare Bazar</title>
-  <link rel="manifest" href="manifest.json">
+  <title>Criare</title>
+  <link rel="manifest" href="manifest.json?v=2">
   <meta name="theme-color" content="#880e4f">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Criare Bazar">
+  <meta name="apple-mobile-web-app-title" content="Criare">
   <link rel="apple-touch-icon" href="icon-192.png">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { width: 100%; min-height: 100vh; overflow-x: hidden; background: #f3f3f3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-
-    /* ABAS */
     .tabs { display: flex; background: #fff; padding: 6px; width: 100%; box-shadow: 0 2px 10px rgba(0,0,0,.10); position: sticky; top: 0; z-index: 10; }
     .tab { flex: 1; padding: 13px 4px; border: none; background: transparent; border-radius: 12px; font-size: 13px; font-weight: 700; color: #aaa; cursor: pointer; line-height: 1.4; }
     .tab.on { background: linear-gradient(135deg, #880e4f, #c2185b); color: #fff; box-shadow: 0 2px 8px rgba(136,14,79,.28); }
-
-    /* CARD */
     .card { display: none; background: #fff; padding: 22px 18px 70px; width: 100%; min-height: calc(100vh - 60px); }
     .card.on { display: block; }
     .tela { display: none; }
     .tela.on { display: block; }
-
-    /* LOGO */
     .logo { text-align: center; margin-bottom: 20px; }
     .logo .em { font-size: 32px; }
     .logo h2 { font-size: 20px; color: #880e4f; font-weight: 800; margin-top: 6px; }
     .logo p  { font-size: 13px; color: #9e9e9e; margin-top: 3px; }
-
-    /* CAMPOS */
     .campo { margin-bottom: 16px; }
     label { display: block; font-size: 12px; font-weight: 700; color: #757575; margin-bottom: 7px; text-transform: uppercase; letter-spacing: .4px; }
     label .ob { color: #c2185b; }
@@ -41,41 +33,27 @@
     input.err { border-color: #e53935; background: #fff8f8; }
     input::placeholder { color: #bdbdbd; }
     .duplo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
-    /* PRÉVIA */
     .previa { display: none; background: linear-gradient(135deg, #fce4ec, #f8bbd0); border: 2px solid #f48fb1; border-radius: 14px; padding: 14px; margin-bottom: 16px; text-align: center; }
     .previa .pval { font-size: 26px; font-weight: 800; color: #880e4f; }
     .previa .plbl { font-size: 12px; color: #ad1457; font-weight: 600; margin-top: 3px; }
-
-    /* ERROS */
     .emsg { display: none; color: #c62828; font-size: 12px; margin-top: 5px; font-weight: 600; }
     .gmsg { color: #c62828; font-size: 13px; margin-bottom: 10px; font-weight: 600; min-height: 18px; }
-
-    /* BOTÕES */
     .btn { width: 100%; padding: 17px; border: none; border-radius: 14px; font-size: 17px; font-weight: 800; cursor: pointer; }
     .btn-r { background: linear-gradient(135deg, #880e4f, #c2185b); color: #fff; margin-top: 6px; }
     .btn-c { background: #f0f0f0; color: #616161; margin-top: 12px; }
     .btn-g { display: block; padding: 16px; background: #25D366; color: #fff; text-decoration: none; border-radius: 14px; font-size: 17px; font-weight: 800; text-align: center; margin-bottom: 12px; }
-
-    /* LOADING */
     .load { text-align: center; padding: 50px 0; }
     .spin { width: 44px; height: 44px; border: 5px solid #f3f3f3; border-top: 5px solid #c2185b; border-radius: 50%; animation: sp .8s linear infinite; margin: 0 auto 16px; }
     @keyframes sp { to { transform: rotate(360deg); } }
     .load p { color: #9e9e9e; font-size: 14px; }
-
-    /* SUCESSO */
     .suc { text-align: center; }
     .suc .sok { font-size: 52px; margin-bottom: 10px; }
     .suc h3 { font-size: 20px; color: #212121; margin-bottom: 8px; }
     .suc .ssub { font-size: 14px; color: #757575; margin-bottom: 20px; line-height: 1.6; }
-
-    /* CLIENTE CARD */
     .cli-card { background: linear-gradient(135deg, #f3e5f5, #ede7f6); border: 2px solid #ce93d8; border-radius: 16px; padding: 16px 18px; margin-bottom: 16px; }
     .cli-nome { font-size: 20px; font-weight: 800; color: #4a148c; margin-bottom: 6px; }
     .cli-slbl { font-size: 11px; color: #888; font-weight: 700; text-transform: uppercase; }
     .cli-sval { font-size: 32px; font-weight: 900; color: #880e4f; line-height: 1.1; }
-
-    /* HISTÓRICO */
     .htit { font-size: 11px; font-weight: 700; color: #9e9e9e; text-transform: uppercase; letter-spacing: .4px; margin: 16px 0 8px; }
     .hi { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-radius: 12px; background: #fafafa; border: 1px solid #eee; margin-bottom: 7px; }
     .hi .hd { color: #bdbdbd; font-size: 12px; }
@@ -87,16 +65,12 @@
     .be { background: #fce4ec; color: #c62828; }
     .sep { border: none; border-top: 2px dashed #e0e0e0; margin: 16px 0; }
     .azero { background: #fff8e1; border: 2px solid #ffe082; border-radius: 14px; padding: 14px; text-align: center; color: #f57f17; font-weight: 700; font-size: 14px; margin-bottom: 14px; }
-
-    /* SELEÇÃO */
     .scli { display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 2px solid #e0e0e0; border-radius: 14px; margin-bottom: 10px; background: #fafafa; cursor: pointer; }
     .scli:active { background: #fce4ec; border-color: #c2185b; }
     .scli .sn { font-size: 16px; font-weight: 700; color: #212121; }
     .scli .st { font-size: 13px; color: #9e9e9e; margin-top: 3px; }
     .scli .sa { font-size: 22px; color: #c2185b; font-weight: 700; }
     .ou { text-align: center; color: #bbb; font-size: 13px; font-weight: 600; margin: -4px 0 12px; }
-
-    /* LEMBRETES */
     .ltit { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; padding: 10px 14px; border-radius: 12px; margin-bottom: 12px; }
     .ltit.urg { background: #ffebee; color: #b71c1c; }
     .ltit.avi { background: #fff8e1; color: #e65100; }
@@ -194,20 +168,13 @@
 
 <script>
 var cli = null;
-// URL do Apps Script — ponto único para todas as chamadas
 var AS = 'https://script.google.com/macros/s/AKfycby5sBJ9w2M2niV0TgrEl2ED5Lm_n0F3O-B6JT_mEmGoxk4CM9LK0P7mQKN3FqFFEefw3w/exec';
 
-/**
- * Chama o Apps Script via POST com Content-Type: text/plain.
- * Isso contorna o CORS sem precisar de headers especiais no servidor.
- * O Google Apps Script recebe em e.postData.contents e retorna JSON.
- */
 function chamar(action, dados, onOk, onErr) {
-  var body = JSON.stringify({ action: action, dados: dados || {} });
   fetch(AS, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: body
+    body: JSON.stringify({ action: action, dados: dados || {} })
   })
   .then(function(r) { return r.json(); })
   .then(function(r) { onOk && onOk(r); })
@@ -216,6 +183,7 @@ function chamar(action, dados, onOk, onErr) {
 
 function S(id) { return document.getElementById(id); }
 function fmt(n) { return parseFloat(n).toFixed(2).replace('.', ','); }
+
 function tela(card, t) {
   S(card).querySelectorAll('.tela').forEach(function(el) { el.classList.remove('on'); });
   S(t).classList.add('on');
@@ -243,104 +211,84 @@ function previa() {
 
 function vendaEnviar() {
   S('v-err').textContent = '';
-  var nome = S('vn').value.trim(), tel = S('vt').value.replace(/\D/g,''), val = parseFloat(S('vv').value), ok = true;
+  var nome = S('vn').value.trim();
+  var tel  = S('vt').value.replace(/\D/g, '');
+  var val  = parseFloat(S('vv').value);
+  var ok   = true;
   if (!nome)                        { S('vn').classList.add('err'); S('vn-e').style.display='block'; ok=false; } else { S('vn').classList.remove('err'); S('vn-e').style.display='none'; }
   if (tel.length<10||tel.length>13) { S('vt').classList.add('err'); S('vt-e').style.display='block'; ok=false; } else { S('vt').classList.remove('err'); S('vt-e').style.display='none'; }
   if (!val||val<=0)                 { S('vv').classList.add('err'); ok=false; } else S('vv').classList.remove('err');
   if (!ok) return;
-
-  // ── UI OTIMISTA ─────────────────────────────────────────────
-  // Calcula tudo localmente e mostra sucesso IMEDIATAMENTE
-  // O envio para o servidor acontece em paralelo
-  var perc       = parseFloat(S('vp').value) || 10;
-  var cashback   = Math.round(val * perc / 100 * 100) / 100;
-  var hoje       = new Date();
-  // Lê validade das configurações (padrão 30 dias)
-  var validade   = new Date(hoje);
-  validade.setDate(validade.getDate() + 30);
-  var dataVal    = ('0'+validade.getDate()).slice(-2)+'/'+('0'+(validade.getMonth()+1)).slice(-2)+'/'+validade.getFullYear();
-  var primeiro   = nome.split(' ')[0];
-
-  // Monta link do WhatsApp localmente (sem esperar o servidor)
-  var telLimpo   = '55' + tel;
-  var msg        = 'Olá, '+primeiro+'! 🌸
-
-'+
-                   'Obrigada pela sua compra de R$ '+fmt(val)+' na nossa loja!
-
-'+
-                   'Você ganhou *R$ '+fmt(cashback)+' de cashback* para usar na sua próxima visita. 💰
-
-'+
-                   '⏳ Válido até: *'+dataVal+'*
-
-'+
-                   'É só aparecer na loja e avisar que tem cashback antes de fechar a conta. Até logo! 😊';
-  var linkWA = 'https://wa.me/'+telLimpo+'?text='+encodeURIComponent(msg);
-
-  // Mostra sucesso imediatamente
-  S('v-ok-txt').textContent = 'R$ '+fmt(cashback)+' de cashback gerado, válido até '+dataVal+'.';
-  S('v-ok-wa').href = linkWA;
-  tela('card-v','v-ok');
-
-  // Envia para o servidor em background (sem bloquear a UI)
-  chamar('registrarVenda', {nome:nome, telefone:tel, valorVenda:val, percCashback:perc, obs:S('vo').value.trim()},
+  tela('card-v', 'v-load');
+  chamar('registrarVenda',
+    { nome:nome, telefone:tel, valorVenda:val, percCashback:parseFloat(S('vp').value)||10, obs:S('vo').value.trim() },
     function(r) {
-      // Se o servidor retornar link mais preciso (com nome da loja correto), atualiza silenciosamente
-      if (r && r.sucesso && r.linkWA) S('v-ok-wa').href = r.linkWA;
+      if (!r.sucesso) { tela('card-v','v-form'); S('v-err').textContent = r.mensagem; return; }
+      S('v-ok-txt').textContent = 'R$ '+fmt(r.cashbackGerado)+' de cashback gerado, válido até '+r.dataValidade+'.';
+      S('v-ok-wa').href = r.linkWA;
+      tela('card-v', 'v-ok');
     },
-    function() {
-      // Erro silencioso — UI já mostrou sucesso, mas loga para diagnóstico
-      console.warn('Erro ao salvar no servidor — venda pode não ter sido registrada.');
-    }
+    function() { tela('card-v','v-form'); S('v-err').textContent = 'Erro de conexão. Tente novamente.'; }
   );
 }
 
 function vendaReset() {
-  ['vn','vt','vv','vo'].forEach(function(id){S(id).value='';S(id).classList.remove('err');});
+  ['vn','vt','vv','vo'].forEach(function(id){ S(id).value=''; S(id).classList.remove('err'); });
   S('vp').value='10'; S('vprev').style.display='none'; S('v-err').textContent='';
   S('vn-e').style.display='none'; S('vt-e').style.display='none';
-  tela('card-v','v-form');
+  tela('card-v', 'v-form');
 }
 
 // DAR BAIXA
 function buscaIniciar() {
   S('b-err').textContent=''; S('bt-e').style.display='none'; S('bt').classList.remove('err');
-  var nome=S('bn').value.trim(), tel=S('bt').value.replace(/\D/g,'');
-  if (!nome&&(tel.length<10||tel.length>13)) { S('b-err').textContent='Preencha o nome ou o telefone da cliente.'; return; }
-  tela('card-b','b-load');
-  if (tel.length>=10&&tel.length<=13) {
-    chamar('buscarClientePorTelefone',{telefone:tel}, buscaMostrar, buscaErro);
+  var nome = S('bn').value.trim();
+  var tel  = S('bt').value.replace(/\D/g,'');
+  if (!nome && (tel.length<10||tel.length>13)) { S('b-err').textContent='Preencha o nome ou o telefone da cliente.'; return; }
+  tela('card-b', 'b-load');
+  if (tel.length>=10 && tel.length<=13) {
+    chamar('buscarClientePorTelefone', { telefone:tel }, buscaMostrar, buscaErro);
   } else {
-    chamar('buscarClientePorNome',{nome:nome},
+    chamar('buscarClientePorNome', { nome:nome },
       function(r) {
         if (!r.sucesso) { tela('card-b','b-form'); S('b-err').textContent=r.mensagem; return; }
-        if (r.clientes.length===1) { chamar('buscarClientePorTelefone',{telefone:r.clientes[0].telefone}, buscaMostrar, buscaErro); return; }
+        if (r.clientes.length===1) { chamar('buscarClientePorTelefone', { telefone:r.clientes[0].telefone }, buscaMostrar, buscaErro); return; }
         var html='';
         r.clientes.forEach(function(c) {
           var tf=c.telefone.replace(/^55(\d{2})(\d{4,5})(\d{4})$/,'($1) $2-$3');
           html+='<div class="scli" onclick="buscaSelecionar(\''+c.telefone+'\')"><div><div class="sn">'+c.nome+'</div><div class="st">📱 '+tf+'</div></div><div class="sa">›</div></div>';
         });
-        S('b-sel-lista').innerHTML=html; tela('card-b','b-sel');
+        S('b-sel-lista').innerHTML=html;
+        tela('card-b','b-sel');
       }, buscaErro
     );
   }
 }
 
-function buscaSelecionar(tel) { tela('card-b','b-load'); chamar('buscarClientePorTelefone',{telefone:tel}, buscaMostrar, buscaErro); }
+function buscaSelecionar(tel) {
+  tela('card-b','b-load');
+  chamar('buscarClientePorTelefone', { telefone:tel }, buscaMostrar, buscaErro);
+}
 
 function buscaMostrar(r) {
   if (!r.sucesso) { tela('card-b','b-form'); S('b-err').textContent=r.mensagem; return; }
-  cli=r;
-  S('b-nome').textContent=r.nome; S('b-saldo').textContent='R$ '+fmt(r.saldoAtivo);
-  if (r.saldoAtivo>0) { hideE('b-zero'); showE('b-resg'); } else { showE('b-zero'); hideE('b-resg'); }
+  cli = r;
+  S('b-nome').textContent  = r.nome;
+  S('b-saldo').textContent = 'R$ ' + fmt(r.saldoAtivo);
+  if (r.saldoAtivo > 0) { hideE('b-zero'); showE('b-resg'); } else { showE('b-zero'); hideE('b-resg'); }
   var html='';
-  if (!r.historico||r.historico.length===0) { html='<p style="color:#bbb;font-size:14px;text-align:center;padding:12px 0">Nenhuma compra nos últimos 30 dias.</p>'; }
-  else r.historico.forEach(function(h) {
-    var b=h.status==='ATIVO'?'<span class="badge ba">ativo</span>':h.status==='USADO'?'<span class="badge bu">usado</span>':'<span class="badge be">expirado</span>';
-    html+='<div class="hi"><div><div class="hd">'+h.dataVenda+'</div><div class="hv">R$ '+fmt(h.valorVenda)+'</div></div><div style="text-align:right"><div class="hcb">+R$ '+fmt(h.valorCashback)+'</div>'+b+'</div></div>';
-  });
-  S('b-hist').innerHTML=html; S('bv').value=''; S('b-rerr').textContent='';
+  if (!r.historico||r.historico.length===0) {
+    html='<p style="color:#bbb;font-size:14px;text-align:center;padding:12px 0">Nenhuma compra nos últimos 30 dias.</p>';
+  } else {
+    r.historico.forEach(function(h) {
+      var b = h.status==='ATIVO' ? '<span class="badge ba">ativo</span>'
+            : h.status==='USADO' ? '<span class="badge bu">usado</span>'
+            : '<span class="badge be">expirado</span>';
+      html += '<div class="hi"><div><div class="hd">'+h.dataVenda+'</div><div class="hv">R$ '+fmt(h.valorVenda)+'</div></div><div style="text-align:right"><div class="hcb">+R$ '+fmt(h.valorCashback)+'</div>'+b+'</div></div>';
+    });
+  }
+  S('b-hist').innerHTML=html;
+  S('bv').value=''; S('b-rerr').textContent='';
   tela('card-b','b-res');
 }
 
@@ -354,16 +302,17 @@ function buscaReset() {
 
 function baixaConfirmar() {
   S('b-rerr').textContent='';
-  var v=parseFloat(S('bv').value);
+  var v = parseFloat(S('bv').value);
   if (!v||v<=0) { S('bv').classList.add('err'); S('bv-e').style.display='block'; return; }
   S('bv').classList.remove('err'); S('bv-e').style.display='none';
-  if (v>cli.saldoAtivo+0.001) { S('b-rerr').textContent='Valor maior que o saldo (R$ '+fmt(cli.saldoAtivo)+').'; return; }
+  if (v > cli.saldoAtivo+0.001) { S('b-rerr').textContent='Valor maior que o saldo (R$ '+fmt(cli.saldoAtivo)+').'; return; }
   tela('card-b','b-bload');
-  chamar('darBaixaCashback',{telefone:cli.telefone, valorUsar:v},
+  chamar('darBaixaCashback', { telefone:cli.telefone, valorUsar:v },
     function(r) {
       if (!r.sucesso) { tela('card-b','b-res'); S('b-rerr').textContent=r.mensagem; return; }
-      S('b-ok-txt').textContent='R$ '+fmt(r.valorUsado)+' resgatados para '+r.nomeCliente+'.';
-      S('b-ok-wa').href=r.linkWA; tela('card-b','b-ok');
+      S('b-ok-txt').textContent = 'R$ '+fmt(r.valorUsado)+' resgatados para '+r.nomeCliente+'.';
+      S('b-ok-wa').href = r.linkWA;
+      tela('card-b','b-ok');
     },
     function() { tela('card-b','b-res'); S('b-rerr').textContent='Erro de conexão. Tente novamente.'; }
   );
@@ -372,14 +321,17 @@ function baixaConfirmar() {
 // LEMBRETES
 function lemCarregar() {
   tela('card-l','l-load');
-  chamar('buscarLembretes',{},
+  chamar('buscarLembretes', {},
     function(r) {
       if (!r.sucesso) { S('l-err-txt').textContent=r.mensagem||'Erro desconhecido.'; tela('card-l','l-err'); return; }
-      var temUrg=r.urgente&&r.urgente.length>0, temAvi=r.aviso&&r.aviso.length>0;
-      var total=(r.urgente?r.urgente.length:0)+(r.aviso?r.aviso.length:0);
-      S('tab-l').innerHTML=total>0?'🔔<br>Lembretes <span style="background:#c2185b;color:#fff;border-radius:10px;padding:1px 6px;font-size:11px;">'+total+'</span>':'🔔<br>Lembretes';
+      var temUrg = r.urgente && r.urgente.length > 0;
+      var temAvi = r.aviso   && r.aviso.length   > 0;
+      var total  = (r.urgente?r.urgente.length:0) + (r.aviso?r.aviso.length:0);
+      S('tab-l').innerHTML = total>0
+        ? '🔔<br>Lembretes <span style="background:#c2185b;color:#fff;border-radius:10px;padding:1px 6px;font-size:11px;">'+total+'</span>'
+        : '🔔<br>Lembretes';
       if (temUrg) { S('l-urg-ct').textContent=r.urgente.length; S('l-urg-lista').innerHTML=r.urgente.map(function(i){return lemCard(i,'urg');}).join(''); showE('l-urg-grp'); } else hideE('l-urg-grp');
-      if (temAvi) { S('l-avi-ct').textContent=r.aviso.length; S('l-avi-lista').innerHTML=r.aviso.map(function(i){return lemCard(i,'avi');}).join(''); showE('l-avi-grp'); } else hideE('l-avi-grp');
+      if (temAvi) { S('l-avi-ct').textContent=r.aviso.length;   S('l-avi-lista').innerHTML=r.aviso.map(function(i){return lemCard(i,'avi');}).join(''); showE('l-avi-grp'); } else hideE('l-avi-grp');
       if (!temUrg&&!temAvi) showE('l-vazio'); else hideE('l-vazio');
       tela('card-l','l-cont');
     },
@@ -388,13 +340,18 @@ function lemCarregar() {
 }
 
 function lemCard(item, tipo) {
-  var dtxt=item.diffDias<=1?'<span class="ld urg">Vence amanhã ('+item.dataValidade+')</span>':'<span class="ld avi">Vence em '+item.diffDias+' dias ('+item.dataValidade+')</span>';
-  return '<div class="lcard '+tipo+'"><div class="ln">'+item.nome+'</div><div class="li"><span class="lv">R$ '+fmt(item.valorCashback)+' de cashback</span> · '+dtxt+'</div><a href="'+item.linkWA+'" target="_blank" class="btn-wa" id="lw-'+item.linhaNum+'" onclick="lemEnviado('+item.linhaNum+')">📱 Enviar Lembrete</a></div>';
+  var dtxt = item.diffDias<=1
+    ? '<span class="ld urg">Vence amanhã ('+item.dataValidade+')</span>'
+    : '<span class="ld avi">Vence em '+item.diffDias+' dias ('+item.dataValidade+')</span>';
+  return '<div class="lcard '+tipo+'"><div class="ln">'+item.nome+'</div>'
+       + '<div class="li"><span class="lv">R$ '+fmt(item.valorCashback)+' de cashback</span> · '+dtxt+'</div>'
+       + '<a href="'+item.linkWA+'" target="_blank" class="btn-wa" id="lw-'+item.linhaNum+'" onclick="lemEnviado('+item.linhaNum+')">📱 Enviar Lembrete</a></div>';
 }
 
 function lemEnviado(n) {
-  var b=S('lw-'+n); if(b){b.textContent='✓ Enviado';b.classList.add('env');}
-  chamar('marcarLembreteEnviado',{linhaNum:n},function(){},function(){});
+  var b = S('lw-'+n);
+  if (b) { b.textContent='✓ Enviado'; b.classList.add('env'); }
+  chamar('marcarLembreteEnviado', { linhaNum:n }, function(){}, function(){});
 }
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(function(){});
