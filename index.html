@@ -424,16 +424,17 @@ function configSair() {
   tela('card-c', 'c-senha');
 }
 
-// Eventos da aba Config via addEventListener
-document.getElementById('btn-c-entrar').addEventListener('click', configEntrar);
-document.getElementById('btn-c-salvar').addEventListener('click', configSalvar);
-document.getElementById('btn-c-sair').addEventListener('click', configSair);
-// Enter na senha faz login
-document.getElementById('c-pwd').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') configEntrar();
-});
-
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(function(){});
+
+// Conecta os botões da aba Config APÓS o DOM estar pronto
+window.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('btn-c-entrar').addEventListener('click', configEntrar);
+  document.getElementById('btn-c-salvar').addEventListener('click', configSalvar);
+  document.getElementById('btn-c-sair').addEventListener('click', configSair);
+  document.getElementById('c-pwd').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') configEntrar();
+  });
+});
 </script>
 
 <!-- CONFIGURAÇÕES -->
