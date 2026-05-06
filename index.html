@@ -12,84 +12,111 @@
   <meta name="apple-mobile-web-app-title" content="Criare Bazar">
   <link rel="apple-touch-icon" href="icon-192.png">
   <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{width:100%;min-height:100vh;background:#f3f3f3;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;overflow-x:hidden}
-    .tabs{display:flex;background:#fff;padding:6px 8px;width:100%;box-shadow:0 2px 8px rgba(0,0,0,.08);position:sticky;top:0;z-index:10}
-    .tab{flex:1;padding:10px 4px;border:none;background:transparent;border-radius:10px;font-size:12px;font-weight:700;color:#aaa;cursor:pointer;line-height:1.4}
-    .tab.on{background:linear-gradient(135deg,#880e4f,#c2185b);color:#fff;box-shadow:0 2px 8px rgba(136,14,79,.28)}
-    .card{display:none;background:#fff;padding:20px 18px 60px;width:100%;min-height:calc(100vh - 56px)}
-    .card.on{display:block}
-    .tela{display:none}.tela.on{display:block}
-    .logo{text-align:center;margin-bottom:18px}
-    .logo .em{font-size:30px}
-    .logo h2{font-size:17px;color:#880e4f;font-weight:800;margin-top:4px}
-    .logo p{font-size:12px;color:#9e9e9e;margin-top:2px}
-    .campo{margin-bottom:13px}
-    label{display:block;font-size:11px;font-weight:700;color:#757575;margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
-    label .ob{color:#c2185b}
-    input{width:100%;padding:12px 13px;border:1.5px solid #e0e0e0;border-radius:11px;font-size:16px;color:#212121;background:#fafafa;-webkit-appearance:none}
-    input:focus{outline:none;border-color:#c2185b;background:#fff;box-shadow:0 0 0 3px rgba(194,24,91,.10)}
-    input.err{border-color:#e53935;background:#fff8f8}
-    input::placeholder{color:#bdbdbd}
-    .duplo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-    .previa{display:none;background:linear-gradient(135deg,#fce4ec,#f8bbd0);border:1.5px solid #f48fb1;border-radius:11px;padding:10px;margin-bottom:13px;text-align:center}
-    .previa .pval{font-size:24px;font-weight:800;color:#880e4f}
-    .previa .plbl{font-size:11px;color:#ad1457;font-weight:600;margin-top:2px}
-    .emsg{display:none;color:#c62828;font-size:12px;margin-top:4px;font-weight:600}
-    .gmsg{color:#c62828;font-size:13px;margin-bottom:8px;font-weight:600;min-height:16px}
-    .btn{width:100%;padding:14px;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer}
-    .btn-r{background:linear-gradient(135deg,#880e4f,#c2185b);color:#fff;margin-top:4px}
-    .btn-c{background:#f0f0f0;color:#616161;margin-top:10px}
-    .btn-g{display:block;padding:13px;background:#25D366;color:#fff;text-decoration:none;border-radius:12px;font-size:15px;font-weight:800;text-align:center;margin-bottom:10px}
-    .load{text-align:center;padding:36px 0}
-    .spin{width:36px;height:36px;border:4px solid #f3f3f3;border-top:4px solid #c2185b;border-radius:50%;animation:sp .8s linear infinite;margin:0 auto 12px}
-    @keyframes sp{to{transform:rotate(360deg)}}
-    .load p{color:#9e9e9e;font-size:13px}
-    .suc{text-align:center}
-    .suc .sok{font-size:46px;margin-bottom:8px}
-    .suc h3{font-size:17px;color:#212121;margin-bottom:6px}
-    .suc .ssub{font-size:13px;color:#757575;margin-bottom:16px;line-height:1.5}
-    .cli-card{background:linear-gradient(135deg,#f3e5f5,#ede7f6);border:1.5px solid #ce93d8;border-radius:13px;padding:13px 15px;margin-bottom:13px}
-    .cli-nome{font-size:17px;font-weight:800;color:#4a148c;margin-bottom:5px}
-    .cli-slbl{font-size:10px;color:#888;font-weight:700;text-transform:uppercase}
-    .cli-sval{font-size:28px;font-weight:900;color:#880e4f;line-height:1.1}
-    .htit{font-size:10px;font-weight:700;color:#9e9e9e;text-transform:uppercase;letter-spacing:.4px;margin:13px 0 6px}
-    .hi{display:flex;justify-content:space-between;align-items:center;padding:9px 11px;border-radius:10px;background:#fafafa;border:1px solid #eee;margin-bottom:5px;font-size:13px}
-    .hi .hd{color:#bdbdbd;font-size:11px}
-    .hi .hv{font-weight:700;color:#212121}
-    .hi .hcb{color:#c2185b;font-weight:700;font-size:12px}
-    .badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase}
-    .ba{background:#e8f5e9;color:#2e7d32}
-    .bu{background:#e3f2fd;color:#1565c0}
-    .be{background:#fce4ec;color:#c62828}
-    .sep{border:none;border-top:1.5px dashed #e0e0e0;margin:13px 0}
-    .azero{background:#fff8e1;border:1.5px solid #ffe082;border-radius:11px;padding:12px;text-align:center;color:#f57f17;font-weight:700;font-size:13px;margin-bottom:12px}
-    .scli{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;border:1.5px solid #e0e0e0;border-radius:12px;margin-bottom:8px;background:#fafafa;cursor:pointer}
-    .scli:active{background:#fce4ec;border-color:#c2185b}
-    .scli .sn{font-size:15px;font-weight:700;color:#212121}
-    .scli .st{font-size:12px;color:#9e9e9e;margin-top:2px}
-    .scli .sa{font-size:20px;color:#c2185b;font-weight:700}
-    .ou{text-align:center;color:#bbb;font-size:12px;font-weight:600;margin:-2px 0 10px}
-    .ltit{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:8px 12px;border-radius:10px;margin-bottom:10px}
-    .ltit.urg{background:#ffebee;color:#b71c1c}
-    .ltit.avi{background:#fff8e1;color:#e65100}
-    .ltit .lct{margin-left:auto;background:#880e4f;color:#fff;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:800}
-    .lcard{border-radius:13px;padding:13px 14px;margin-bottom:10px;border:1.5px solid}
-    .lcard.urg{background:#fff5f5;border-color:#ef9a9a}
-    .lcard.avi{background:#fffde7;border-color:#ffe082}
-    .lcard .ln{font-size:15px;font-weight:800;color:#212121;margin-bottom:3px}
-    .lcard .li{font-size:12px;color:#757575;margin-bottom:10px;line-height:1.6}
-    .lcard .lv{font-weight:800;color:#880e4f}
-    .lcard .ld{font-weight:700}
-    .lcard .ld.urg{color:#b71c1c}
-    .lcard .ld.avi{color:#e65100}
-    .btn-wa{display:block;padding:11px 16px;background:#25D366;color:#fff;text-decoration:none;border-radius:10px;font-size:14px;font-weight:800;text-align:center}
-    .btn-wa.env{background:#9e9e9e;pointer-events:none}
-    .lvazio{text-align:center;padding:32px 16px;color:#bdbdbd}
-    .lvazio .le{font-size:40px;margin-bottom:10px}
-    .lvazio p{font-size:14px}
-    .btn-ref{width:100%;padding:12px;border:1.5px solid #e0e0e0;border-radius:11px;background:#fff;color:#880e4f;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:14px}
-    .lgrupo{margin-bottom:20px}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; min-height: 100vh; overflow-x: hidden; background: #f3f3f3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+    /* ABAS */
+    .tabs { display: flex; background: #fff; padding: 6px; width: 100%; box-shadow: 0 2px 10px rgba(0,0,0,.10); position: sticky; top: 0; z-index: 10; }
+    .tab { flex: 1; padding: 13px 4px; border: none; background: transparent; border-radius: 12px; font-size: 13px; font-weight: 700; color: #aaa; cursor: pointer; line-height: 1.4; }
+    .tab.on { background: linear-gradient(135deg, #880e4f, #c2185b); color: #fff; box-shadow: 0 2px 8px rgba(136,14,79,.28); }
+
+    /* CARD */
+    .card { display: none; background: #fff; padding: 22px 18px 70px; width: 100%; min-height: calc(100vh - 60px); }
+    .card.on { display: block; }
+    .tela { display: none; }
+    .tela.on { display: block; }
+
+    /* LOGO */
+    .logo { text-align: center; margin-bottom: 20px; }
+    .logo .em { font-size: 32px; }
+    .logo h2 { font-size: 20px; color: #880e4f; font-weight: 800; margin-top: 6px; }
+    .logo p  { font-size: 13px; color: #9e9e9e; margin-top: 3px; }
+
+    /* CAMPOS */
+    .campo { margin-bottom: 16px; }
+    label { display: block; font-size: 12px; font-weight: 700; color: #757575; margin-bottom: 7px; text-transform: uppercase; letter-spacing: .4px; }
+    label .ob { color: #c2185b; }
+    input { width: 100%; padding: 15px 14px; border: 2px solid #e0e0e0; border-radius: 14px; font-size: 17px; color: #212121; background: #fafafa; -webkit-appearance: none; }
+    input:focus { outline: none; border-color: #c2185b; background: #fff; box-shadow: 0 0 0 3px rgba(194,24,91,.10); }
+    input.err { border-color: #e53935; background: #fff8f8; }
+    input::placeholder { color: #bdbdbd; }
+    .duplo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* PRÉVIA */
+    .previa { display: none; background: linear-gradient(135deg, #fce4ec, #f8bbd0); border: 2px solid #f48fb1; border-radius: 14px; padding: 14px; margin-bottom: 16px; text-align: center; }
+    .previa .pval { font-size: 26px; font-weight: 800; color: #880e4f; }
+    .previa .plbl { font-size: 12px; color: #ad1457; font-weight: 600; margin-top: 3px; }
+
+    /* ERROS */
+    .emsg { display: none; color: #c62828; font-size: 12px; margin-top: 5px; font-weight: 600; }
+    .gmsg { color: #c62828; font-size: 13px; margin-bottom: 10px; font-weight: 600; min-height: 18px; }
+
+    /* BOTÕES */
+    .btn { width: 100%; padding: 17px; border: none; border-radius: 14px; font-size: 17px; font-weight: 800; cursor: pointer; }
+    .btn-r { background: linear-gradient(135deg, #880e4f, #c2185b); color: #fff; margin-top: 6px; }
+    .btn-c { background: #f0f0f0; color: #616161; margin-top: 12px; }
+    .btn-g { display: block; padding: 16px; background: #25D366; color: #fff; text-decoration: none; border-radius: 14px; font-size: 17px; font-weight: 800; text-align: center; margin-bottom: 12px; }
+
+    /* LOADING */
+    .load { text-align: center; padding: 50px 0; }
+    .spin { width: 44px; height: 44px; border: 5px solid #f3f3f3; border-top: 5px solid #c2185b; border-radius: 50%; animation: sp .8s linear infinite; margin: 0 auto 16px; }
+    @keyframes sp { to { transform: rotate(360deg); } }
+    .load p { color: #9e9e9e; font-size: 14px; }
+
+    /* SUCESSO */
+    .suc { text-align: center; }
+    .suc .sok { font-size: 52px; margin-bottom: 10px; }
+    .suc h3 { font-size: 20px; color: #212121; margin-bottom: 8px; }
+    .suc .ssub { font-size: 14px; color: #757575; margin-bottom: 20px; line-height: 1.6; }
+
+    /* CLIENTE CARD */
+    .cli-card { background: linear-gradient(135deg, #f3e5f5, #ede7f6); border: 2px solid #ce93d8; border-radius: 16px; padding: 16px 18px; margin-bottom: 16px; }
+    .cli-nome { font-size: 20px; font-weight: 800; color: #4a148c; margin-bottom: 6px; }
+    .cli-slbl { font-size: 11px; color: #888; font-weight: 700; text-transform: uppercase; }
+    .cli-sval { font-size: 32px; font-weight: 900; color: #880e4f; line-height: 1.1; }
+
+    /* HISTÓRICO */
+    .htit { font-size: 11px; font-weight: 700; color: #9e9e9e; text-transform: uppercase; letter-spacing: .4px; margin: 16px 0 8px; }
+    .hi { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; border-radius: 12px; background: #fafafa; border: 1px solid #eee; margin-bottom: 7px; }
+    .hi .hd { color: #bdbdbd; font-size: 12px; }
+    .hi .hv { font-size: 15px; font-weight: 700; color: #212121; }
+    .hi .hcb { color: #c2185b; font-weight: 700; font-size: 13px; }
+    .badge { display: inline-block; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    .ba { background: #e8f5e9; color: #2e7d32; }
+    .bu { background: #e3f2fd; color: #1565c0; }
+    .be { background: #fce4ec; color: #c62828; }
+    .sep { border: none; border-top: 2px dashed #e0e0e0; margin: 16px 0; }
+    .azero { background: #fff8e1; border: 2px solid #ffe082; border-radius: 14px; padding: 14px; text-align: center; color: #f57f17; font-weight: 700; font-size: 14px; margin-bottom: 14px; }
+
+    /* SELEÇÃO */
+    .scli { display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 2px solid #e0e0e0; border-radius: 14px; margin-bottom: 10px; background: #fafafa; cursor: pointer; }
+    .scli:active { background: #fce4ec; border-color: #c2185b; }
+    .scli .sn { font-size: 16px; font-weight: 700; color: #212121; }
+    .scli .st { font-size: 13px; color: #9e9e9e; margin-top: 3px; }
+    .scli .sa { font-size: 22px; color: #c2185b; font-weight: 700; }
+    .ou { text-align: center; color: #bbb; font-size: 13px; font-weight: 600; margin: -4px 0 12px; }
+
+    /* LEMBRETES */
+    .ltit { display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .5px; padding: 10px 14px; border-radius: 12px; margin-bottom: 12px; }
+    .ltit.urg { background: #ffebee; color: #b71c1c; }
+    .ltit.avi { background: #fff8e1; color: #e65100; }
+    .ltit .lct { margin-left: auto; background: #880e4f; color: #fff; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 800; }
+    .lcard { border-radius: 16px; padding: 16px; margin-bottom: 12px; border: 2px solid; }
+    .lcard.urg { background: #fff5f5; border-color: #ef9a9a; }
+    .lcard.avi { background: #fffde7; border-color: #ffe082; }
+    .lcard .ln { font-size: 16px; font-weight: 800; color: #212121; margin-bottom: 5px; }
+    .lcard .li { font-size: 13px; color: #757575; margin-bottom: 12px; line-height: 1.6; }
+    .lcard .lv { font-weight: 800; color: #880e4f; }
+    .lcard .ld { font-weight: 700; }
+    .lcard .ld.urg { color: #b71c1c; }
+    .lcard .ld.avi { color: #e65100; }
+    .btn-wa { display: block; padding: 14px; background: #25D366; color: #fff; text-decoration: none; border-radius: 12px; font-size: 15px; font-weight: 800; text-align: center; }
+    .btn-wa.env { background: #9e9e9e; pointer-events: none; }
+    .lvazio { text-align: center; padding: 40px 20px; color: #bdbdbd; }
+    .lvazio .le { font-size: 48px; margin-bottom: 12px; }
+    .lvazio p { font-size: 15px; }
+    .btn-ref { width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 12px; background: #fff; color: #880e4f; font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 16px; }
+    .lgrupo { margin-bottom: 22px; }
   </style>
 </head>
 <body>
@@ -105,7 +132,7 @@
   <div class="tela on" id="v-form">
     <div class="logo"><div class="em">🛍️</div><h2>Registrar Venda</h2><p>Preencha os dados da compra</p></div>
     <div class="campo"><label for="vn">Nome da cliente <span class="ob">*</span></label><input type="text" id="vn" placeholder="Ex: Maria Silva" autocomplete="name"><div class="emsg" id="vn-e">Digite o nome da cliente.</div></div>
-    <div class="campo"><label for="vt">WhatsApp com DDD <span class="ob">*</span></label><input type="tel" id="vt" placeholder="(47) 98765-4321" inputmode="numeric"><div class="emsg" id="vt-e">Telefone inválido — use DDD + número.</div></div>
+    <div class="campo"><label for="vt">WhatsApp com DDD <span class="ob">*</span></label><input type="tel" id="vt" placeholder="(47) 98765-4321" inputmode="numeric"><div class="emsg" id="vt-e">Telefone inválido.</div></div>
     <div class="duplo">
       <div class="campo"><label for="vv">Valor da venda <span class="ob">*</span></label><input type="number" id="vv" placeholder="0,00" inputmode="decimal" min="0.01" step="0.01"></div>
       <div class="campo"><label for="vp">Cashback (%)</label><input type="number" id="vp" value="10" inputmode="decimal" min="0" max="100" step="0.5"></div>
@@ -116,9 +143,7 @@
     <button class="btn btn-r" onclick="vendaEnviar()">💾 Registrar Venda</button>
   </div>
   <div class="tela" id="v-load"><div class="load"><div class="spin"></div><p>Salvando...</p></div></div>
-  <div class="tela" id="v-ok">
-    <div class="suc"><div class="sok">🎉</div><h3>Venda registrada!</h3><p class="ssub" id="v-ok-txt"></p><a class="btn-g" id="v-ok-wa" href="#" target="_blank">📱 Enviar no WhatsApp</a><button class="btn btn-c" onclick="vendaReset()">+ Registrar outra venda</button></div>
-  </div>
+  <div class="tela" id="v-ok"><div class="suc"><div class="sok">🎉</div><h3>Venda registrada!</h3><p class="ssub" id="v-ok-txt"></p><a class="btn-g" id="v-ok-wa" href="#" target="_blank">📱 Enviar no WhatsApp</a><button class="btn btn-c" onclick="vendaReset()">+ Registrar outra venda</button></div></div>
 </div>
 
 <!-- DAR BAIXA -->
@@ -127,13 +152,13 @@
     <div class="logo"><div class="em">🔍</div><h2>Dar Baixa no Cashback</h2><p>Busque pelo nome ou pelo WhatsApp</p></div>
     <div class="campo"><label for="bn">Nome da cliente</label><input type="text" id="bn" placeholder="Ex: Maria Eduarda" autocomplete="off"></div>
     <div class="ou">— ou —</div>
-    <div class="campo"><label for="bt">WhatsApp com DDD</label><input type="tel" id="bt" placeholder="(47) 98765-4321" inputmode="numeric"><div class="emsg" id="bt-e">Telefone inválido — use DDD + número.</div></div>
+    <div class="campo"><label for="bt">WhatsApp com DDD</label><input type="tel" id="bt" placeholder="(47) 98765-4321" inputmode="numeric"><div class="emsg" id="bt-e">Telefone inválido.</div></div>
     <div class="gmsg" id="b-err"></div>
     <button class="btn btn-r" onclick="buscaIniciar()">🔍 Buscar Cliente</button>
   </div>
   <div class="tela" id="b-load"><div class="load"><div class="spin"></div><p>Buscando...</p></div></div>
   <div class="tela" id="b-sel">
-    <div class="logo"><div class="em">👥</div><h2>Qual cliente?</h2><p>Encontramos mais de uma com esse nome</p></div>
+    <div class="logo"><div class="em">👥</div><h2>Qual cliente?</h2><p>Mais de uma encontrada com esse nome</p></div>
     <div id="b-sel-lista"></div>
     <button class="btn btn-c" onclick="buscaReset()">← Voltar</button>
   </div>
@@ -152,9 +177,7 @@
     <button class="btn btn-c" onclick="buscaReset()">← Nova busca</button>
   </div>
   <div class="tela" id="b-bload"><div class="load"><div class="spin"></div><p>Registrando resgate...</p></div></div>
-  <div class="tela" id="b-ok">
-    <div class="suc"><div class="sok">✅</div><h3>Resgate confirmado!</h3><p class="ssub" id="b-ok-txt"></p><a class="btn-g" id="b-ok-wa" href="#" target="_blank">📱 Enviar Confirmação no WhatsApp</a><button class="btn btn-c" onclick="buscaReset()">← Nova busca</button></div>
-  </div>
+  <div class="tela" id="b-ok"><div class="suc"><div class="sok">✅</div><h3>Resgate confirmado!</h3><p class="ssub" id="b-ok-txt"></p><a class="btn-g" id="b-ok-wa" href="#" target="_blank">📱 Enviar Confirmação no WhatsApp</a><button class="btn btn-c" onclick="buscaReset()">← Nova busca</button></div></div>
 </div>
 
 <!-- LEMBRETES -->
@@ -166,35 +189,41 @@
     <div class="lgrupo" id="l-avi-grp" style="display:none"><div class="ltit avi">⚠️ Vencem em breve <span class="lct" id="l-avi-ct"></span></div><div id="l-avi-lista"></div></div>
     <div class="lvazio" id="l-vazio" style="display:none"><div class="le">🎉</div><p>Nenhum cashback vencendo nos próximos 7 dias!</p></div>
   </div>
-  <div class="tela" id="l-err"><div class="suc"><div class="sok" style="font-size:36px">⚠️</div><h3>Erro ao carregar</h3><p class="ssub" id="l-err-txt"></p><button class="btn btn-c" onclick="lemCarregar()">Tentar novamente</button></div></div>
+  <div class="tela" id="l-err"><div class="suc"><div class="sok" style="font-size:40px">⚠️</div><h3>Erro ao carregar</h3><p class="ssub" id="l-err-txt"></p><button class="btn btn-c" onclick="lemCarregar()">Tentar novamente</button></div></div>
 </div>
 
 <script>
 var cli = null;
+// URL do Apps Script — ponto único para todas as chamadas
 var AS = 'https://script.google.com/macros/s/AKfycby5sBJ9w2M2niV0TgrEl2ED5Lm_n0F3O-B6JT_mEmGoxk4CM9LK0P7mQKN3FqFFEefw3w/exec';
 
-// ── CHAMADA AO APPS SCRIPT ──────────────────────────────────
-// Como estamos fora do Apps Script, usamos fetch com JSONP via ?action=
-function chamar(action, params, ok, err) {
-  var url = AS + '?action=' + encodeURIComponent(action) + '&dados=' + encodeURIComponent(JSON.stringify(params || {}));
-  fetch(url)
-    .then(function(r) { return r.json(); })
-    .then(ok)
-    .catch(function(e) { err && err(e); });
+/**
+ * Chama o Apps Script via POST com Content-Type: text/plain.
+ * Isso contorna o CORS sem precisar de headers especiais no servidor.
+ * O Google Apps Script recebe em e.postData.contents e retorna JSON.
+ */
+function chamar(action, dados, onOk, onErr) {
+  var body = JSON.stringify({ action: action, dados: dados || {} });
+  fetch(AS, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: body
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(r) { onOk && onOk(r); })
+  .catch(function(e) { onErr && onErr(e); });
 }
 
-// ── HELPERS ─────────────────────────────────────────────────
 function S(id) { return document.getElementById(id); }
 function fmt(n) { return parseFloat(n).toFixed(2).replace('.', ','); }
 function tela(card, t) {
-  var c = S(card);
-  c.querySelectorAll('.tela').forEach(function(el) { el.classList.remove('on'); });
+  S(card).querySelectorAll('.tela').forEach(function(el) { el.classList.remove('on'); });
   S(t).classList.add('on');
 }
 function showE(id) { S(id).style.display = 'block'; }
 function hideE(id) { S(id).style.display = 'none'; }
 
-// ── ABAS ────────────────────────────────────────────────────
+// ABAS
 function aba(id, btn) {
   document.querySelectorAll('.tab').forEach(function(b) { b.classList.remove('on'); });
   document.querySelectorAll('.card').forEach(function(c) { c.classList.remove('on'); });
@@ -203,34 +232,31 @@ function aba(id, btn) {
   if (id === 'l') lemCarregar();
 }
 
-// ── NOVA VENDA ───────────────────────────────────────────────
+// NOVA VENDA
 S('vv').addEventListener('input', previa);
 S('vp').addEventListener('input', previa);
 function previa() {
   var v = parseFloat(S('vv').value) || 0, p = parseFloat(S('vp').value) || 0;
-  if (v > 0 && p > 0) { S('vprev-v').textContent = 'R$ ' + fmt(v*p/100); S('vprev').style.display='block'; }
-  else S('vprev').style.display='none';
+  if (v > 0 && p > 0) { S('vprev-v').textContent = 'R$ ' + fmt(v*p/100); S('vprev').style.display = 'block'; }
+  else S('vprev').style.display = 'none';
 }
 
 function vendaEnviar() {
   S('v-err').textContent = '';
-  var nome = S('vn').value.trim();
-  var tel  = S('vt').value.replace(/\D/g,'');
-  var val  = parseFloat(S('vv').value);
-  var ok   = true;
-  if (!nome)                            { S('vn').classList.add('err'); S('vn-e').style.display='block'; ok=false; } else { S('vn').classList.remove('err'); S('vn-e').style.display='none'; }
-  if (tel.length<10||tel.length>13)     { S('vt').classList.add('err'); S('vt-e').style.display='block'; ok=false; } else { S('vt').classList.remove('err'); S('vt-e').style.display='none'; }
-  if (!val||val<=0)                     { S('vv').classList.add('err'); ok=false; } else S('vv').classList.remove('err');
+  var nome = S('vn').value.trim(), tel = S('vt').value.replace(/\D/g,''), val = parseFloat(S('vv').value), ok = true;
+  if (!nome)                        { S('vn').classList.add('err'); S('vn-e').style.display='block'; ok=false; } else { S('vn').classList.remove('err'); S('vn-e').style.display='none'; }
+  if (tel.length<10||tel.length>13) { S('vt').classList.add('err'); S('vt-e').style.display='block'; ok=false; } else { S('vt').classList.remove('err'); S('vt-e').style.display='none'; }
+  if (!val||val<=0)                 { S('vv').classList.add('err'); ok=false; } else S('vv').classList.remove('err');
   if (!ok) return;
   tela('card-v','v-load');
-  chamar('registrarVenda', {nome:nome,telefone:tel,valorVenda:val,percCashback:parseFloat(S('vp').value)||10,obs:S('vo').value.trim()},
+  chamar('registrarVenda', {nome:nome, telefone:tel, valorVenda:val, percCashback:parseFloat(S('vp').value)||10, obs:S('vo').value.trim()},
     function(r) {
-      if (!r.sucesso) { tela('card-v','v-form'); S('v-err').textContent=r.mensagem; return; }
+      if (!r.sucesso) { tela('card-v','v-form'); S('v-err').textContent = r.mensagem; return; }
       S('v-ok-txt').textContent = 'R$ '+fmt(r.cashbackGerado)+' de cashback gerado, válido até '+r.dataValidade+'.';
       S('v-ok-wa').href = r.linkWA;
       tela('card-v','v-ok');
     },
-    function(e) { tela('card-v','v-form'); S('v-err').textContent='Erro de conexão. Tente novamente.'; }
+    function() { tela('card-v','v-form'); S('v-err').textContent = 'Erro de conexão. Tente novamente.'; }
   );
 }
 
@@ -241,33 +267,31 @@ function vendaReset() {
   tela('card-v','v-form');
 }
 
-// ── DAR BAIXA ────────────────────────────────────────────────
+// DAR BAIXA
 function buscaIniciar() {
   S('b-err').textContent=''; S('bt-e').style.display='none'; S('bt').classList.remove('err');
-  var nome = S('bn').value.trim(), tel = S('bt').value.replace(/\D/g,'');
-  if (!nome && (tel.length<10||tel.length>13)) { S('b-err').textContent='Preencha o nome ou o telefone da cliente.'; return; }
+  var nome=S('bn').value.trim(), tel=S('bt').value.replace(/\D/g,'');
+  if (!nome&&(tel.length<10||tel.length>13)) { S('b-err').textContent='Preencha o nome ou o telefone da cliente.'; return; }
   tela('card-b','b-load');
-  if (tel.length>=10 && tel.length<=13) {
+  if (tel.length>=10&&tel.length<=13) {
     chamar('buscarClientePorTelefone',{telefone:tel}, buscaMostrar, buscaErro);
   } else {
-    chamar('buscarClientePorNome',{nome:nome}, function(r) {
-      if (!r.sucesso) { tela('card-b','b-form'); S('b-err').textContent=r.mensagem; return; }
-      if (r.clientes.length===1) { chamar('buscarClientePorTelefone',{telefone:r.clientes[0].telefone}, buscaMostrar, buscaErro); return; }
-      var html='';
-      r.clientes.forEach(function(c) {
-        var tf = c.telefone.replace(/^55(\d{2})(\d{4,5})(\d{4})$/,'($1) $2-$3');
-        html+='<div class="scli" onclick="buscaSelecionar(\''+c.telefone+'\')"><div><div class="sn">'+c.nome+'</div><div class="st">📱 '+tf+'</div></div><div class="sa">›</div></div>';
-      });
-      S('b-sel-lista').innerHTML=html;
-      tela('card-b','b-sel');
-    }, buscaErro);
+    chamar('buscarClientePorNome',{nome:nome},
+      function(r) {
+        if (!r.sucesso) { tela('card-b','b-form'); S('b-err').textContent=r.mensagem; return; }
+        if (r.clientes.length===1) { chamar('buscarClientePorTelefone',{telefone:r.clientes[0].telefone}, buscaMostrar, buscaErro); return; }
+        var html='';
+        r.clientes.forEach(function(c) {
+          var tf=c.telefone.replace(/^55(\d{2})(\d{4,5})(\d{4})$/,'($1) $2-$3');
+          html+='<div class="scli" onclick="buscaSelecionar(\''+c.telefone+'\')"><div><div class="sn">'+c.nome+'</div><div class="st">📱 '+tf+'</div></div><div class="sa">›</div></div>';
+        });
+        S('b-sel-lista').innerHTML=html; tela('card-b','b-sel');
+      }, buscaErro
+    );
   }
 }
 
-function buscaSelecionar(tel) {
-  tela('card-b','b-load');
-  chamar('buscarClientePorTelefone',{telefone:tel}, buscaMostrar, buscaErro);
-}
+function buscaSelecionar(tel) { tela('card-b','b-load'); chamar('buscarClientePorTelefone',{telefone:tel}, buscaMostrar, buscaErro); }
 
 function buscaMostrar(r) {
   if (!r.sucesso) { tela('card-b','b-form'); S('b-err').textContent=r.mensagem; return; }
@@ -275,7 +299,7 @@ function buscaMostrar(r) {
   S('b-nome').textContent=r.nome; S('b-saldo').textContent='R$ '+fmt(r.saldoAtivo);
   if (r.saldoAtivo>0) { hideE('b-zero'); showE('b-resg'); } else { showE('b-zero'); hideE('b-resg'); }
   var html='';
-  if (!r.historico||r.historico.length===0) { html='<p style="color:#bbb;font-size:13px;text-align:center;padding:10px 0">Nenhuma compra nos últimos 30 dias.</p>'; }
+  if (!r.historico||r.historico.length===0) { html='<p style="color:#bbb;font-size:14px;text-align:center;padding:12px 0">Nenhuma compra nos últimos 30 dias.</p>'; }
   else r.historico.forEach(function(h) {
     var b=h.status==='ATIVO'?'<span class="badge ba">ativo</span>':h.status==='USADO'?'<span class="badge bu">usado</span>':'<span class="badge be">expirado</span>';
     html+='<div class="hi"><div><div class="hd">'+h.dataVenda+'</div><div class="hv">R$ '+fmt(h.valorVenda)+'</div></div><div style="text-align:right"><div class="hcb">+R$ '+fmt(h.valorCashback)+'</div>'+b+'</div></div>';
@@ -283,10 +307,12 @@ function buscaMostrar(r) {
   S('b-hist').innerHTML=html; S('bv').value=''; S('b-rerr').textContent='';
   tela('card-b','b-res');
 }
-function buscaErro(e) { tela('card-b','b-form'); S('b-err').textContent='Erro de conexão. Tente novamente.'; }
+
+function buscaErro() { tela('card-b','b-form'); S('b-err').textContent='Erro de conexão. Tente novamente.'; }
 
 function buscaReset() {
-  S('bn').value=''; S('bt').value=''; S('bt').classList.remove('err'); S('bt-e').style.display='none'; S('b-err').textContent=''; cli=null;
+  S('bn').value=''; S('bt').value=''; S('bt').classList.remove('err');
+  S('bt-e').style.display='none'; S('b-err').textContent=''; cli=null;
   tela('card-b','b-form');
 }
 
@@ -297,18 +323,17 @@ function baixaConfirmar() {
   S('bv').classList.remove('err'); S('bv-e').style.display='none';
   if (v>cli.saldoAtivo+0.001) { S('b-rerr').textContent='Valor maior que o saldo (R$ '+fmt(cli.saldoAtivo)+').'; return; }
   tela('card-b','b-bload');
-  chamar('darBaixaCashback',{telefone:cli.telefone,valorUsar:v},
+  chamar('darBaixaCashback',{telefone:cli.telefone, valorUsar:v},
     function(r) {
       if (!r.sucesso) { tela('card-b','b-res'); S('b-rerr').textContent=r.mensagem; return; }
       S('b-ok-txt').textContent='R$ '+fmt(r.valorUsado)+' resgatados para '+r.nomeCliente+'.';
-      S('b-ok-wa').href=r.linkWA;
-      tela('card-b','b-ok');
+      S('b-ok-wa').href=r.linkWA; tela('card-b','b-ok');
     },
-    function(e) { tela('card-b','b-res'); S('b-rerr').textContent='Erro de conexão. Tente novamente.'; }
+    function() { tela('card-b','b-res'); S('b-rerr').textContent='Erro de conexão. Tente novamente.'; }
   );
 }
 
-// ── LEMBRETES ────────────────────────────────────────────────
+// LEMBRETES
 function lemCarregar() {
   tela('card-l','l-load');
   chamar('buscarLembretes',{},
@@ -316,19 +341,21 @@ function lemCarregar() {
       if (!r.sucesso) { S('l-err-txt').textContent=r.mensagem||'Erro desconhecido.'; tela('card-l','l-err'); return; }
       var temUrg=r.urgente&&r.urgente.length>0, temAvi=r.aviso&&r.aviso.length>0;
       var total=(r.urgente?r.urgente.length:0)+(r.aviso?r.aviso.length:0);
-      S('tab-l').innerHTML=total>0?'🔔<br>Lembretes <span style="background:#c2185b;color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;">'+total+'</span>':'🔔<br>Lembretes';
+      S('tab-l').innerHTML=total>0?'🔔<br>Lembretes <span style="background:#c2185b;color:#fff;border-radius:10px;padding:1px 6px;font-size:11px;">'+total+'</span>':'🔔<br>Lembretes';
       if (temUrg) { S('l-urg-ct').textContent=r.urgente.length; S('l-urg-lista').innerHTML=r.urgente.map(function(i){return lemCard(i,'urg');}).join(''); showE('l-urg-grp'); } else hideE('l-urg-grp');
       if (temAvi) { S('l-avi-ct').textContent=r.aviso.length; S('l-avi-lista').innerHTML=r.aviso.map(function(i){return lemCard(i,'avi');}).join(''); showE('l-avi-grp'); } else hideE('l-avi-grp');
       if (!temUrg&&!temAvi) showE('l-vazio'); else hideE('l-vazio');
       tela('card-l','l-cont');
     },
-    function(e) { S('l-err-txt').textContent='Erro de conexão. Tente novamente.'; tela('card-l','l-err'); }
+    function() { S('l-err-txt').textContent='Erro de conexão. Tente novamente.'; tela('card-l','l-err'); }
   );
 }
-function lemCard(item,tipo) {
+
+function lemCard(item, tipo) {
   var dtxt=item.diffDias<=1?'<span class="ld urg">Vence amanhã ('+item.dataValidade+')</span>':'<span class="ld avi">Vence em '+item.diffDias+' dias ('+item.dataValidade+')</span>';
   return '<div class="lcard '+tipo+'"><div class="ln">'+item.nome+'</div><div class="li"><span class="lv">R$ '+fmt(item.valorCashback)+' de cashback</span> · '+dtxt+'</div><a href="'+item.linkWA+'" target="_blank" class="btn-wa" id="lw-'+item.linhaNum+'" onclick="lemEnviado('+item.linhaNum+')">📱 Enviar Lembrete</a></div>';
 }
+
 function lemEnviado(n) {
   var b=S('lw-'+n); if(b){b.textContent='✓ Enviado';b.classList.add('env');}
   chamar('marcarLembreteEnviado',{linhaNum:n},function(){},function(){});
