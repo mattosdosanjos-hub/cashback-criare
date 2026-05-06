@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Criare Bazar</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#880e4f">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Criare Bazar">
+  <link rel="apple-touch-icon" href="icon-192.png">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #880e4f;
+    }
+
+    /* Barra de topo com a cor da marca */
+    .topbar {
+      width: 100%;
+      height: env(safe-area-inset-top, 0px);
+      background: #880e4f;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+    }
+
+    iframe {
+      position: fixed;
+      top: env(safe-area-inset-top, 0px);
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #fff;
+      /* Força o iframe a ocupar toda a tela e aplica zoom 2x */
+      transform-origin: top left;
+    }
+
+    /* Tela de loading enquanto o iframe carrega */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: #880e4f;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      transition: opacity 0.4s;
+    }
+    #loading img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 24px;
+      background: white;
+      padding: 10px;
+    }
+    #loading p {
+      color: rgba(255,255,255,0.8);
+      font-family: -apple-system, sans-serif;
+      font-size: 16px;
+    }
+    .spin-ld {
+      width: 36px; height: 36px;
+      border: 4px solid rgba(255,255,255,0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      animation: sp 0.9s linear infinite;
+      margin-bottom: 16px;
+    }
+    @keyframes sp { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+  <div class="topbar"></div>
+
+  <!-- Tela de loading enquanto carrega -->
+  <div id="loading">
+    <img src="icon-192.png" alt="Criare Bazar">
+    <div class="spin-ld"></div>
+    <p>Carregando...</p>
+  </div>
+
+  <!-- iframe com o Apps Script — SUBSTITUA A URL ABAIXO -->
+  <iframe
+    id="app"
+    src="SUA_URL_DO_APPS_SCRIPT_AQUI"
+    onload="esconderLoading()"
+    allow="camera; microphone"
+  ></iframe>
+
+  <script>
+    // Registra o service worker para PWA
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js').catch(function(){});
+    }
+
+    // Esconde o loading quando o iframe terminar de carregar
+    function esconderLoading() {
+      var ld = document.getElementById('loading');
+      ld.style.opacity = '0';
+      setTimeout(function() { ld.style.display = 'none'; }, 400);
+    }
+
+    // Ajusta o iframe para preencher a tela toda com zoom correto
+    function ajustarIframe() {
+      var iframe = document.getElementById('app');
+      var sw = window.screen.width;
+      var ww = window.innerWidth;
+
+      // Calcula o fator de escala: tela física / largura do viewport
+      var ratio = window.devicePixelRatio || 1;
+
+      // No modo standalone (PWA) a largura do viewport já é a correta
+      // Aplica um scale para garantir que o conteúdo ocupe toda a tela
+      iframe.style.width  = '100%';
+      iframe.style.height = '100vh';
+      iframe.style.transform = 'none';
+    }
+
+    ajustarIframe();
+    window.addEventListener('resize', ajustarIframe);
+  </script>
+</body>
+</html>
