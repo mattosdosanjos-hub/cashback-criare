@@ -91,6 +91,16 @@
     .lvazio p { font-size: 15px; }
     .btn-ref { width: 100%; padding: 14px; border: 2px solid #e0e0e0; border-radius: 12px; background: #fff; color: #880e4f; font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 16px; }
     .lgrupo { margin-bottom: 22px; }
+    .cfg-tit { font-size: 11px; font-weight: 700; color: #9e9e9e; text-transform: uppercase; letter-spacing:.4px; margin: 20px 0 8px; }
+    textarea { width:100%; padding:13px 14px; border:2px solid #e0e0e0; border-radius:14px; font-size:15px; color:#212121; background:#fafafa; resize:vertical; min-height:90px; font-family:inherit; line-height:1.5; -webkit-appearance:none; }
+    textarea:focus { outline:none; border-color:#c2185b; background:#fff; box-shadow:0 0 0 3px rgba(194,24,91,.10); }
+    .var-h { font-size:11px; color:#aaa; margin-top:5px; line-height:1.6; }
+    .var-h code { background:#f5f5f5; padding:1px 5px; border-radius:4px; font-size:11px; color:#880e4f; }
+    .lock-box { text-align:center; padding:30px 20px; }
+    .lock-box .lem { font-size:48px; margin-bottom:12px; }
+    .lock-box h3 { font-size:18px; color:#212121; margin-bottom:8px; }
+    .lock-box p { font-size:13px; color:#9e9e9e; margin-bottom:20px; }
+    .cfg-ok { background:#e8f5e9; border:2px solid #a5d6a7; border-radius:12px; padding:12px; text-align:center; color:#2e7d32; font-weight:700; font-size:14px; margin-bottom:12px; display:none; }
   </style>
 </head>
 <body>
@@ -99,6 +109,7 @@
   <button class="tab on" id="tab-v" onclick="aba('v',this)">💰<br>Nova Venda</button>
   <button class="tab"    id="tab-b" onclick="aba('b',this)">✅<br>Dar Baixa</button>
   <button class="tab"    id="tab-l" onclick="aba('l',this)">🔔<br>Lembretes</button>
+  <button class="tab"    id="tab-c" onclick="aba('c',this)">⚙️<br>Config</button>
 </div>
 
 <!-- NOVA VENDA -->
@@ -354,7 +365,123 @@ function lemEnviado(n) {
   chamar('marcarLembreteEnviado', { linhaNum:n }, function(){}, function(){});
 }
 
+
+// CONFIGURAÇÕES
+var cfgSenhaAtual = '';
+
+function configEntrar() {
+  var pwd = document.getElementById('c-pwd').value;
+  if (!pwd) { document.getElementById('c-err').textContent = 'Digite a senha.'; return; }
+  document.getElementById('c-err').textContent = '';
+  tela('card-c', 'c-load');
+  chamar('lerConfigApp', { senha: pwd },
+    function(r) {
+      if (!r.sucesso) { tela('card-c','c-senha'); document.getElementById('c-err').textContent = r.mensagem; return; }
+      cfgSenhaAtual = pwd;
+      document.getElementById('c-dias').value  = r.diasValidade;
+      document.getElementById('c-perc').value  = r.percPadrao;
+      document.getElementById('c-lem').value   = r.diasLembrete;
+      document.getElementById('c-loja').value  = r.nomeLoja;
+      document.getElementById('c-mbv').value   = r.msgBoasVindas;
+      document.getElementById('c-mlem').value  = r.msgLembrete;
+      document.getElementById('c-muso').value  = r.msgUso;
+      document.getElementById('c-salvo').style.display = 'none';
+      document.getElementById('c-serr').textContent = '';
+      tela('card-c', 'c-form');
+    },
+    function() { tela('card-c','c-senha'); document.getElementById('c-err').textContent = 'Erro de conexão.'; }
+  );
+}
+
+function configSalvar() {
+  document.getElementById('c-serr').textContent = '';
+  document.getElementById('c-salvo').style.display = 'none';
+  tela('card-c', 'c-sload');
+  chamar('salvarConfigApp', {
+    senha:         cfgSenhaAtual,
+    diasValidade:  document.getElementById('c-dias').value,
+    percPadrao:    document.getElementById('c-perc').value,
+    diasLembrete:  document.getElementById('c-lem').value,
+    nomeLoja:      document.getElementById('c-loja').value,
+    msgBoasVindas: document.getElementById('c-mbv').value,
+    msgLembrete:   document.getElementById('c-mlem').value,
+    msgUso:        document.getElementById('c-muso').value
+  },
+    function(r) {
+      tela('card-c', 'c-form');
+      if (!r.sucesso) { document.getElementById('c-serr').textContent = r.mensagem; return; }
+      document.getElementById('c-salvo').style.display = 'block';
+      setTimeout(function(){ document.getElementById('c-salvo').style.display='none'; }, 3000);
+    },
+    function() { tela('card-c','c-form'); document.getElementById('c-serr').textContent = 'Erro de conexão.'; }
+  );
+}
+
+function configSair() {
+  cfgSenhaAtual = '';
+  document.getElementById('c-pwd').value = '';
+  document.getElementById('c-err').textContent = '';
+  tela('card-c', 'c-senha');
+}
+
+// Eventos da aba Config via addEventListener
+document.getElementById('btn-c-entrar').addEventListener('click', configEntrar);
+document.getElementById('btn-c-salvar').addEventListener('click', configSalvar);
+document.getElementById('btn-c-sair').addEventListener('click', configSair);
+// Enter na senha faz login
+document.getElementById('c-pwd').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') configEntrar();
+});
+
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(function(){});
 </script>
+
+<!-- CONFIGURAÇÕES -->
+<div class="card" id="card-c">
+  <div class="tela on" id="c-senha">
+    <div class="lock-box">
+      <div class="lem">🔐</div>
+      <h3>Área Restrita</h3>
+      <p>Digite a senha para acessar as configurações</p>
+    </div>
+    <div class="campo"><label for="c-pwd">Senha</label><input type="password" id="c-pwd" placeholder="••••"></div>
+    <div class="gmsg" id="c-err"></div>
+    <button class="btn btn-r" id="btn-c-entrar">Entrar</button>
+  </div>
+  <div class="tela" id="c-load"><div class="load"><div class="spin"></div><p>Carregando...</p></div></div>
+  <div class="tela" id="c-form">
+    <div class="logo"><div class="em">⚙️</div><h2>Configurações</h2><p>Edite textos e parâmetros</p></div>
+    <div class="cfg-tit">📊 Parâmetros gerais</div>
+    <div class="duplo">
+      <div class="campo"><label for="c-dias">Validade (dias)</label><input type="number" id="c-dias" inputmode="numeric" min="1"></div>
+      <div class="campo"><label for="c-perc">Cashback (%)</label><input type="number" id="c-perc" inputmode="decimal" min="0" max="100" step="0.5"></div>
+    </div>
+    <div class="duplo">
+      <div class="campo"><label for="c-lem">Lembrete (dias antes)</label><input type="number" id="c-lem" inputmode="numeric" min="1"></div>
+      <div class="campo"><label for="c-loja">Nome da loja</label><input type="text" id="c-loja"></div>
+    </div>
+    <div class="cfg-tit">💬 Mensagem de boas-vindas</div>
+    <div class="campo">
+      <textarea id="c-mbv" placeholder="Ex: Olá, {nome}! Obrigada pela compra de R$ {valor}..."></textarea>
+      <div class="var-h">Variáveis: <code>{nome}</code> <code>{valor}</code> <code>{cashback}</code> <code>{validade}</code> <code>{loja}</code></div>
+    </div>
+    <div class="cfg-tit">⏰ Mensagem de lembrete</div>
+    <div class="campo">
+      <textarea id="c-mlem" placeholder="Ex: Oi, {nome}! Seu cashback de R$ {cashback} vence em {validade}..."></textarea>
+      <div class="var-h">Variáveis: <code>{nome}</code> <code>{cashback}</code> <code>{validade}</code> <code>{loja}</code></div>
+    </div>
+    <div class="cfg-tit">✅ Mensagem de resgate</div>
+    <div class="campo">
+      <textarea id="c-muso" placeholder="Ex: Olá, {nome}! Seu cashback de R$ {cashback} foi resgatado..."></textarea>
+      <div class="var-h">Variáveis: <code>{nome}</code> <code>{cashback}</code> <code>{loja}</code></div>
+    </div>
+    <div class="cfg-ok" id="c-salvo">✅ Configurações salvas!</div>
+    <div class="gmsg" id="c-serr"></div>
+    <button class="btn btn-r" id="btn-c-salvar">💾 Salvar Configurações</button>
+    <button class="btn btn-c" id="btn-c-sair">← Sair</button>
+  </div>
+  <div class="tela" id="c-sload"><div class="load"><div class="spin"></div><p>Salvando...</p></div></div>
+</div>
+
 </body>
 </html>
